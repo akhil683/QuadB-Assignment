@@ -1,7 +1,9 @@
 import { useState , useEffect, Suspense, lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+
 const Home = lazy(() => import('./routes/Home'));
 const ShowDetails = lazy(() => import('./routes/showDetails'))
-import { Route, Routes } from "react-router-dom";
+const ShowForm = lazy(() => import('./components/ShowForm'));
 
 const Loader = () => {
   return (
@@ -29,22 +31,29 @@ const App = () => {
   }, []);
 
   return (
-<Routes>
+    <Routes>
+      
+      <Route path="/" element={
+        <Suspense fallback={<Loader />}>
+          { isLoading 
+            ? <Loader />
+            : <Home data={data} />
+          }
+        </Suspense>
+      }/>
 
-    <Route path="/" element={
-      <Suspense fallback={<Loader />}>
-        { isLoading 
-          ? <Loader />
-          : <Home data={data} />
-        }
-      </Suspense>
-    }/>
-    <Route path="/:id" element={
-      <Suspense fallback={<Loader />}>
-        <ShowDetails data={data} />
-      </Suspense>
-    }    
-    />
+      <Route path="/:id" element={
+        <Suspense fallback={<Loader />}>
+          <ShowDetails data={data} />
+        </Suspense>
+      }/>
+
+      <Route path="/:id/tickets" element={
+        <Suspense fallback={<Loader />}>
+          <ShowForm data={data} />
+        </Suspense>
+      }/>
+
     </Routes>
   )
 }
