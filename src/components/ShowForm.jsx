@@ -47,7 +47,6 @@ const ShowForm = ({ data }) => {
         <input 
           type="text" 
           name='name'
-          value={form.name}
           onChange={(e) => handleChange(e)}
           placeholder='Show Name' 
           defaultValue={show.name} 
